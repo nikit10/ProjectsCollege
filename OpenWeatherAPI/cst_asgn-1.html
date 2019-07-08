@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">   
+      <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+      <link rel='stylesheet' id='customstyle-css'  href='style.css' type='text/css' media='all' />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <title>Assignment-1</title>
+  </head>
+  <body class='ral  ci'>  
+    <header class="site-nav clearfix">
+        <div class="loc-left">
+            <a href="http://localhost/assig-1/cst_asgn-1.html" class="logo"><h2>FORECAST TELLER</h2></a>
+        </div>
+        <div class="loc-right">
+       <div>
+        <ul class="menu">
+        <li class="brackets "><a value='forecast' onclick="grabHum(this.value); return false;" id='click4'>Humidty</a></li>
+        <li class="brackets"><a value='forecast' onclick="grab(this.value); return false;" id='click3'>Max & Min Temperature</a></li>
+        <li class="brackets"><a value='forecast' onclick="grabFile(this.value); return false;" id='click2'>Temperature Details</a></li>
+        </ul>
+        </div> 
+        </div>
+    </header>
+      <div class="clearfix ux"> 
+        		<h2>&#92; Weather Forecast &#92;</h2>   
+        	  </div>
+      <div class='clearfix ci'>
+          Enter name of the City: &nbsp;
+          <input id="city" type="text" value="Athlone"/>
+        <input id="clickMe" value="Forecast" type="button" onclick="grabFile(this.value); return false;"/>
+          <input id="clickMe2" value="Forecast" type="button"  onclick="grab(this.value); return false;"/>
+          <input id="clickMe3" value="Forecast" type="button" onclick="grabHum(this.value); return false;"/>
+      </div>
+      <br/><br/>
+      <div id='aja' style='display: none;'>
+      
+      </div>
+      <canvas id="myChart" align='center' style='display: none;' width="800px;"></canvas>
+      <canvas id="myChart2" align='center' style='display: none;' width="800px;"></canvas>
+      <a id="back2Top" onClick='topFunction()' title="Back to top" href="#">&#10148;</a>
+      <script type="text/javascript" src="call.js"></script>
+    </body>
+</html>

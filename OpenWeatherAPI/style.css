@@ -1,0 +1,172 @@
+@import 'https://fonts.googleapis.com/css?family=Raleway';
+html{
+    background-color: #FAFAFA;
+}
+.site-nav{
+  margin: 0px;
+  padding:0px;
+  font-family: Raleway;
+}
+.nodisp{
+    display: none;
+}
+.disp{
+    display: contents;
+}
+.logo{
+  font-family: Trebuchet MS;
+  float: left;
+  width: 256px;
+  height: 150px;
+  padding-top: 8px;
+  padding-bottom: 40px;
+  padding-left: 100px;
+  color: darkgray;
+  text-decoration: none;
+}
+
+.loc-left{
+    margin-top: 30px;
+    float: left;
+    width: 30%;
+    height:75px;
+}
+.loc-left2{
+    margin: 0px;
+    float: left;
+    width: 700px;
+    height: 900px;
+}
+.loc-right{
+    margin-top: 20px;
+    margin-right: 100px;
+    float: right;
+    width: auto;
+}
+.site-nav div ul li{
+  margin: 20px;
+  position: relative;
+  list-style: none;
+  float: right;
+  transition: all 0.5s;
+}
+
+.site-nav div ul li a{
+  text-decoration: none;
+  color: #000000;
+  padding: 30px 18px;
+  font-family: Raleway;
+  font-size: 15px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  transition: all 0.5s;
+}
+.ral{
+    font-family: Raleway;
+}
+.site-nav div ul li:after, .site-nav div ul li:before {
+  transition: all 0.5s;
+}
+
+.brackets{
+    cursor: pointer;
+}
+.brackets:before, .brackets:after {
+  position: absolute;
+  top: 0px; /* Value depends on your design. */
+  color: transparent;/* It makes the curly brackets invisible at the beginning.*/
+}
+.brackets:hover:before, .brackets:hover:after {
+  color: black; /* Or whatever colour you want. */
+}
+
+
+/* For movement */
+.brackets:before {
+  content: '\005C';
+  left: -10px;
+}
+.brackets:hover:before {
+  left: -5px;
+}
+.brackets:after {
+  /*content: "&#92;";*/
+  content: '\005C';
+  right: -10px;
+}
+.brackets:hover:after {
+  right: -5px;
+  
+}
+.ci{
+    text-align: center;
+   align-content: center;
+}
+.ux{
+    text-align: center;
+    font-family: Raleway;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+.clearfix {
+    clear: both;
+}
+.mid{
+    text-align: center;
+    border: 1px solid white;
+    padding:15px;
+    width:45%;        
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+/*tr:hover {background-color: #f5f5f5;}*/
+th, td {
+    border-bottom: 1px solid #ddd;
+}
+#clickMe{
+    border-radius: 12px;
+    background-color: white;
+    color: black;
+    border: 2px solid #e7e7e7;
+    cursor: pointer;
+}
+#clickMe2{
+    border-radius: 12px;
+    background-color: white;
+    color: black;
+    border: 2px solid #e7e7e7;
+    cursor: pointer;
+    display: none;
+}
+#clickMe3{
+    border-radius: 12px;
+    background-color: white;
+    color: black;
+    border: 2px solid #e7e7e7;
+    cursor: pointer;
+    display: none;
+}
+#back2Top {
+    width: 40px;
+    line-height: 40px;
+    overflow: hidden;
+    z-index: 999;
+    display: none;
+    cursor: pointer;
+    -moz-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    transform: rotate(270deg);
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    background-color: #DDD;
+    color: #555;
+    text-align: center;
+    font-size: 30px;
+    text-decoration: none;
+}
+#back2Top:hover {
+    background-color: #DDF;
+    color: #000;
+}
