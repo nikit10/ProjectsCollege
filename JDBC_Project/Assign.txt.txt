@@ -1,0 +1,89 @@
+CREATE DATABASE IF NOT EXISTS BEng_Assign;
+USE BEng_Assign;
+
+DROP TABLE IF EXISTS olympics;
+
+
+CREATE TABLE `beng_assign`.`olympics` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `FirstName` VARCHAR(15) NOT NULL,
+  `LastName` VARCHAR(20) NOT NULL,
+  `Gender` VARCHAR(1) NOT NULL,
+  `Age` INT NOT NULL,
+  `Country` VARCHAR(25) NOT NULL,
+  `Sport` VARCHAR(20) NOT NULL,
+  `Weight` INT NOT NULL,
+  `Medal` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`id`));
+
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Michael', 'Phelps', 'M', '33', 'USA', 'swimming', '88', 'gold');
+
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Larisa', 'Latynina', 'F', '27', 'Russia', 'gymnastics', '52', 'gold');
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Usain', 'Bolt', 'M', '32', 'Jamaica', 'athletics', '94', 'gold');
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Yohan', 'Blake', 'M', '29', 'Jamaica', 'athletics', '81', 'silver');
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Ryan', 'Lochte', 'M', '34', 'USA', 'swimming', '88', 'silver');
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Allyson', 'Felix', 'F', '33', 'USA', 'swimming', '55', 'gold');
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Gagan', 'Narang', 'M', '35', 'India', 'shooting', '92', 'bronze');
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Abhinav', 'Bindra', 'M', '36', 'India', 'shooting', '65', 'gold');
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Saina', 'Nehwal', 'F', '28', 'India', 'badminton', '65', 'bronze');
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('P.V.', 'Sindhu', 'F', '23', 'India', 'badminton', '63', 'silver');
+
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Robert', 'Heffernan', 'M', '40', 'Ireland', 'athletics', '58', 'bronze');
+INSERT INTO `beng_assign`.`olympics` (`FirstName`, `LastName`, `Gender`, `Age`, `Country`, `Sport`, `Weight`, `Medal`) VALUES ('Katie', 'Taylor', 'F', '32', 'Ireland', 'boxing', '54', 'gold');
+
+
+DELIMITER //
+CREATE TRIGGER details_before_update
+  BEFORE UPDATE ON olympics
+  FOR EACH ROW 
+BEGIN
+  SET NEW.Sport = LOWER(NEW.Sport),
+  NEW.Country = LOWER(NEW.Country);
+END// 
+
+DROP TABLE IF EXISTS orders_audit;
+
+
+)
+
+
+    DELIMITER //
+CREATE  TRIGGER delete_after_insert
+    AFTER INSERT on  olympics
+    FOR EACH ROW
+BEGIN
+    INSERT INTO olympics_audit VALUES
+    (NEW.id,
+    NEW.FirstName, 
+    NEW.LastName,
+    NEW.Gender,
+    NEW.Age,
+    NEW.Country, 
+    NEW.Sport,olympics
+    NEW.Weight,
+    NEW.Medal,
+    "INSERTED",
+    NOW());
+    END//
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `count11`(
+   
+   IN country1 varchar(20)
+)
+BEGIN
+      DECLARE sql_error TINYINT DEFAULT FALSE;
+  
+  DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+    SET sql_error = TRUE;
+
+  START TRANSACTION;  
+
+      select count(medal)  from beng_assign.olympics  where olympics.country =  country1 ;
+      
+
+  IF sql_error = FALSE THEN
+    COMMIT;
+  ELSE
+    ROLLBACK;
+  END IF;
+END
