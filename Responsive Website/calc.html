@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <script type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+</head>
+<body>
+    <div class='grid-container'>
+        <div class='item1'>
+            <ul class="menu">
+                <li class="brackets "><a value='forecast' href='#'>Home</a></li>
+                <li class="brackets"><a value='forecast' href='#'>Contact Us</a></li>
+            </ul>
+        </div>
+        <div class='item2' style="font-size: 20px;">
+            <br/>
+            <br/>
+            <br/>
+            This website is responsive.<br/>
+            It has 2 breakpoints.
+        </div>
+        <div class='item3'>
+            <div class='calculator'>
+                <input type="text" id="hel" class='item-header'>
+                <button class='btn' id="btn7" value = "7" onclick="appending(id)">7</button>
+                <button class='btn' id="btn8" value = "8" onclick="appending(id)">8</button>
+                <button class='btn' id="btn9" value = "9" onclick="appending(id)">9</button>
+                <button class='btn orange' id="btn+" value = "+" onclick="appending(id)">+</button>
+                <button class='btn' id="btn4" value = "4" onclick="appending(id)">4</button>
+                <button class='btn' id="btn5" value = "5" onclick="appending(id)">5</button>
+                <button class='btn' id="btn6" value = "6" onclick="appending(id)">6</button>
+                <button class='btn orange' id="btn-" value = "-" onclick="appending(id)">-</button>
+                <button class='btn' id="btn1" value = "1" onclick="appending(id)">1</button>
+                <button class='btn' id="btn2" value = "2" onclick="appending(id)">2</button>
+                <button class='btn' id="btn3" value = "3" onclick="appending(id)">3</button>
+                <button class='btn orange' id="btn*" value = "*" onclick="appending(id)">&times;</button>
+                <button class='btn' id="btn0" value = "0" onclick="appending(id)">0</button>
+                <button class='btn orange' id="btn." value = "." onclick="appending(id)">.</button>
+                <button class='btn orange' onclick="clearing()">C</button>
+                <button class='btn orange' id="btn=" value = "/" onclick="appending(id)">&#247;</button>            
+                <button class='equal orange' onclick="evaluating()">=</button>        
+                
+            </div>
+        </div>
+        <div class='item4'><img src="img.jpg" class="img" /></div>
+        <div class='item5' style="font-size: 16px;"> <br/><br/><br/><br/> &copy; All rights reserved by Nikit Vaswani</div>
+    </div>
+</body>
+</html>
