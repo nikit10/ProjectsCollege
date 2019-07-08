@@ -1,0 +1,101 @@
+Customer Table
+Customer ID
+Name
+Phone No.
+Delivery Address
+Payment Status
+
+Order Table(Foregin Key Customer ID)
+Order ID
+Customer ID
+Delivery Address
+Customers Phone no.
+Order
+Order Date
+
+Delivery Agent
+Agent ID
+Name
+Phone Number
+Address
+
+Delivery Dockets
+Customer ID
+AgentID
+Agent Name
+Order ID
+Order Date
+Customers Address
+Customers Phone number
+Order
+Order Status
+
+
+
+CREATE TABLE `newsagency`.`customer` (
+  `Customer_id` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NOT NULL,
+  `Contact_no` VARCHAR(15) NOT NULL,
+  `Address` VARCHAR(255) NOT NULL,
+  `Payment_due` INT NULL DEFAULT 0,
+  PRIMARY KEY (`Customer_id`));
+
+CREATE TABLE `newsagency`.`order_table` (
+  `order_id` INT NOT NULL AUTO_INCREMENT,
+  `customer_id` INT NOT NULL,
+  `date` DATE NOT NULL,
+  `order` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`order_id`),
+  INDEX `customer_idx` (`customer_id` ASC) VISIBLE,
+  CONSTRAINT `customer`
+    FOREIGN KEY (`customer_id`)
+    REFERENCES `newsagency`.`customer` (`Customer_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `newsagency`.`agent` (
+  `agent_id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `contact` VARCHAR(15) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`agent_id`));
+  
+  //new table
+  CREATE TABLE `newsagency`.`delivery_area` (
+  `delivery_area_id` INT NOT NULL,
+  `delivery_area_name` VARCHAR(25) NOT NULL,
+  PRIMARY KEY (`delivery_area_id`));
+  
+  
+  //Stocks Table
+  CREATE TABLE `stocks` (
+  `Item_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Item_Name` varchar(45) NOT NULL,
+  `Quantity` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Item_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  
+  
+  //Customer Table new
+  
+  CREATE TABLE `customer` (
+  `Customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(45) NOT NULL,
+  `Contact_no` varchar(15) NOT NULL,
+  `Address` varchar(255) NOT NULL,
+  `Payment_due` int(11) DEFAULT '0',
+  `order_area` int(11) DEFAULT NULL,
+  `delivery_status` tinyint(4) DEFAULT NULL,
+  `order_d` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  
+  ALTER TABLE `newsagency`.`agent` 
+ADD COLUMN `agentArea` INT NULL AFTER `address`;
+
+CREATE TABLE `newsagency`.`admin status` (
+  `id` INT NOT NULL,
+  `status` SMALLINT(2) NOT NULL,
+  PRIMARY KEY (`id`));
+  
+  INSERT INTO `newsagency`.`admin status` (`id`, `status`) VALUES ('1', '1');
