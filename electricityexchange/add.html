@@ -1,0 +1,137 @@
+<form id="site">
+    <table id="table">
+        <tbody>
+        <div id="siteAdd">
+            <div id="first form">
+                <tr>
+                    <td>Site name:</td>
+                    <td><input name="name" class="siteName" type='text' size='21' placeholder='Site Name' required> </td>
+                </tr>
+                <tr>
+                    <td>Site description:</td>
+                    <td><input name="description" class="siteDesc" type='text' size='21' placeholder='Site Description' required></td>
+                </tr>
+                <tr>
+                    <td>DSU:</td>
+                    <td><select name="dsuId" class="dropdown" required></select></td>
+                </tr>
+
+            </div>
+        </div>
+        </tbody>
+    </table>    
+    <input class="button" type="submit" name="submit">
+    <a href="javascript:addSiteform()">+</a>
+    <input type="reset" class="button" name="reset" onclick="resetSite()">
+</form>
+
+<script type="text/javascript">
+    //id used to manipulate additional forms
+    var currentId = 1;
+    
+    //alerting user if changes are not saved
+    $('#site').data('serialize',$('#site').serialize()); // On load save form current state
+
+    $(window).bind('beforeunload', function(e){
+        if($('#site').serialize()!=$('#site').data('serialize'))return true;
+        else e=null; // i.e; if form state change show warning box, else don't show it.
+    });
+    //adding addtional forms on click
+    function addSiteform(){
+        
+        currentId += 1;
+        var element = document.createElement("div");
+        element.id = currentId;
+        var row1 = document.createElement("tr");
+        var dat1 = "<td>Site name:</td>"+
+                   "<td><input name='name' class='siteName' type='text' size='21' placeholder='Site Name' required> </td>";
+        row1.innerHTML = dat1;
+        element.appendChild(row1);
+        var row2 = document.createElement("tr");
+        var dat2 = "<td>Site description:</td>"+
+                   "<td><input name='description' class='siteDesc' type='text' size='21' placeholder='Site Description' required></td>";            
+        row2.innerHTML = dat2;
+        element.appendChild(row2);
+        var row3 = document.createElement("tr");
+        var dat3 = "<td>DSU:</td>"+
+                   "<td><select name='dsuId' class='dropdown' required></td>"+
+                   "<a href='javascript:del(" + currentId + ")' >Delete Form</a>";
+        row3.innerHTML = dat3;
+        element.appendChild(row3);
+        document.getElementById("table").appendChild(element);
+        getDropdownData();
+    }
+    //deleting the selected form
+    function del(id){
+        var child = document.getElementById(id);
+        var par = document.getElementById("table");
+        par.removeChild(child);
+    }
+    //deleting addtional forms i.e reseting the site
+    function resetSite(){
+        var e = document.getElementById('table'); 
+        var child = e.lastElementChild;  
+        while (e.childNodes.length > 2) {
+            e.removeChild(e.lastChild);
+        }
+    }
+    //using Jquery to send the data using form
+    function ConvertFormToJSON(form){
+			var array = jQuery(form).serializeArray();
+            console.log(array);
+			var json = {};
+			var count = 0;
+			jQuery.each(array, function() {
+                    json[this.name] = this.value;                                           
+                    count += 1;
+                    if(count==3){
+                        count = 0;
+                        sendData(json);
+                    }
+			});		
+			return json;
+		}
+    
+    //sending data to url using PUT via Jquery and ajax
+    function sendData(json){
+        $.ajax({  
+                url: 'http://localhost:3000/v1/api/sites',  
+                type: 'PUT',    
+                data: json,  
+                success: function (data, textStatus, xhr) {   
+                    console.log("Data is inserted");
+                },  
+                error: function (xhr, textStatus, errorThrown) {  
+                    alert("-DSU name cannot be more than 10 characters long. \n-Description cannot be more than 20 characters long. \n \nEnter valid input"); 
+                }  
+            });
+    }
+    
+        $(document).ready(function () {
+            
+            $("#site").on('submit', function(e){
+            e.preventDefault();
+            var form = document.getElementById("site");
+            var js = ConvertFormToJSON(form);
+            });
+            
+			getDropdownData();
+        });
+    //getting data from url and entering it to the dropdown
+    function getDropdownData(){
+        var dropdown = $(".dropdown");
+        dropdown.empty();
+		$.ajax('http://localhost:3000/v1/api/dsus', 
+		{
+		  dataType: 'json', // type of response data
+		  success: function (data,status,xhr) {   // success callback function                    
+		  $.each(data, function (key, entry) {
+                    dropdown.append($('<option></option>').attr('value', entry.id).text(entry.name));        
+                  })
+          },
+		  error: function (jqXhr, textStatus, errorMessage) { // error callback 
+		  console.log("Error while extracting data from server");
+		}
+		});
+    }
+    </script>

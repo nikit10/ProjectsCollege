@@ -1,0 +1,112 @@
+<form id="dsu">
+    <table id="table">
+        <tbody>
+        <div id="dsuAdd">
+            <div id="first form">
+                <tr>
+                    <td>DSU name:</td>
+                    <td><input name="name" class="dsuName" type='text' size='21' placeholder='DSU Name' required> </td>
+                </tr>
+                <tr>
+                    <td>DSU description:</td>
+                    <td><input name="description" class="dsuDesc" type='text' size='21' placeholder='DSU Description' required></td>
+                </tr>
+                <tr>
+                    <td>Operations Cert:</td>
+                    <td><input name="cert" class="cert" type='number' size="21" min="0.0001" step="0.0001" placeholder="Operations Cert"></td>
+                </tr>
+            </div>
+        </div>
+        </tbody>
+    </table>    
+    <input type="submit" name="submit">
+    <a href="javascript:addDSUform()">+</a>
+    <input type="reset" name="reset" onclick="resetDSU()">
+</form>
+
+<script>
+    //id used to manipulate additional forms
+    var currentId = 1;
+    //alerting user if changes are not saved
+    $('#dsu').data('serialize',$('#dsu').serialize()); // On load save form current state
+
+    $(window).bind('beforeunload', function(e){
+        if($('#dsu').serialize()!=$('#dsu').data('serialize'))return true;
+        else e=null; // i.e; if form state change show warning box, else don't show it.
+    });
+    //adding forms
+    function addDSUform(){
+        currentId += 1;
+        var element = document.createElement("div");
+        element.id = currentId;
+        var row1 = document.createElement("tr");
+        var dat1 = "<td>DSU name:</td>"+
+                   "<td><input name='name' class='dsuName' type='text' size='21' placeholder='DSU Name' required> </td>";
+        row1.innerHTML = dat1;
+        element.appendChild(row1);
+        var row2 = document.createElement("tr");
+        var dat2 = "<td>DSU description:</td>"+
+                   "<td><input name='description' class='dsuDesc' type='text' size='21' placeholder='DSU Description' required></td>";            
+        row2.innerHTML = dat2;
+        element.appendChild(row2);
+        var row3 = document.createElement("tr");
+        var dat3 = "<td>Operations Cert:</td>"+
+                   "<td><input name='cert' class='cert' type='number' size='21' min='0.0001' step='0.0001' placeholder='Operations Cert'></td>"+
+                   "<a href='javascript:del(" + currentId + ")' >Delete Form</a>";
+        row3.innerHTML = dat3;
+        element.appendChild(row3);
+        document.getElementById("table").appendChild(element);
+    }
+    //delete the form with id
+    function del(id){
+        var child = document.getElementById(id);
+        var par = document.getElementById("table");
+        par.removeChild(child);
+    }
+    //delete all the additional forms
+    function resetDSU(){
+        var e = document.getElementById('table'); 
+        var child = e.lastElementChild;  
+        while (e.childNodes.length > 2) {
+            e.removeChild(e.lastChild);
+        }
+    }
+    //Used JQuery to convert form to array and then send it to sendData function for each form
+    function ConvertFormToJSON(form){
+			var array = jQuery(form).serializeArray();
+			var json = {};
+			var count = 0;
+			jQuery.each(array, function() {
+                    json[this.name] = this.value;
+                    count += 1;
+                    if(count==3){
+                        count = 0;
+                        sendData(json);
+                    }
+			});			
+			return json;
+		}
+    
+    $(document).ready( function() { 
+       $("#dsu").on('submit', function(e){
+        e.preventDefault();
+        console.log("Default");
+        var form = document.getElementById("dsu");
+        var js = ConvertFormToJSON(form);
+    });
+   });
+    //sendinfg data using Jquery and ajax using put 
+    function sendData(json){
+        $.ajax({  
+                url: 'http://localhost:3000/v1/api/dsus',  
+                type: 'PUT',    
+                data: json,  
+                success: function (data, textStatus, xhr) {  
+                    console.log(json);  
+                },  
+                error: function (xhr, textStatus, errorThrown) {  
+                    alert("-DSU name cannot be more than 10 characters long. \n-Description cannot be more than 20 characters long \n-Operations cert cannot have more than 4 decimal places \n \nEnter valid input");  
+                }  
+            });
+    }
+</script>

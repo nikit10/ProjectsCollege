@@ -1,0 +1,149 @@
+*Note - Sorting can be done on descriptions on clicking header of table<br>
+<table id="table">
+    <tbody>
+        <tr>
+            <th>
+                Site Id
+            </th>
+            <th onclick="sortTable(1)">
+                Site Description
+            </th>
+            <th>
+                DSU ID
+            </th>
+            <th onclick="sortTable(3)">
+                DSU Description
+            </th>
+            <th>
+                DSU Op Cert
+            </th>
+        </tr>
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function (){        
+        var dsu = [];
+        var limit = {};
+        var dsuindex = 0;
+        //getting data for dsu
+		$.ajax('http://localhost:3000/v1/api/dsus', 
+		{
+		  dataType: 'json', // type of response data
+          async: false,
+		  success: function (data,status,xhr) {   // success callback function              
+		  $.each(data, function (key, entry) {
+                    dsu[dsuindex] = entry.id;
+                    dsuindex += 1;
+                    dsu[dsuindex] = entry.description;
+                    dsuindex += 1;
+                    dsu[dsuindex] = entry.cert;
+                    dsuindex += 1;
+                  })
+          },
+		  error: function (jqXhr, textStatus, errorMessage) { // error callback 
+		  console.log("Error while extracting data from server");
+		}
+		});
+        var site = {};
+        var siteindex = 0;
+        //getting data for site
+		$.ajax('http://localhost:3000/v1/api/sites', 
+		{
+		  dataType: 'json', // type of response data
+          async:false,
+		  success: function (data,status,xhr) {   // success callback function                    
+		  $.each(data, function (key, entry) {  
+                    site[siteindex] = entry.id;
+                    siteindex += 1;
+                    site[siteindex] = entry.description;
+                    siteindex += 1;
+                  })
+          },
+		  error: function (jqXhr, textStatus, errorMessage) { // error callback 
+		  console.log("Error while extracting data from server");
+		}
+		});
+        //using data gathered above in variable to create a table
+        var table = document.getElementById("table");
+        siteindex = 0;        
+        var index = 0;
+        while(index<dsuindex){
+            var row = "<tr>";
+            if(typeof site[siteindex]=== "undefined"){
+            row += "<td value='" + site[siteindex] + "'> - </td>";
+            siteindex += 1;
+            row += "<td value='" + site[siteindex] + "'> - </td>";
+            siteindex +=1;
+               }
+            else{
+            row += "<td value='" + site[siteindex] + "'>" + site[siteindex] + "</td>";
+            siteindex += 1;
+            row += "<td value='" + site[siteindex] + "'>" + site[siteindex] + "</td>";
+            siteindex +=1;
+            }
+            row += "<td value='" + dsu[index] + "'>" + dsu[index] + "</td>";
+            index +=1;
+            row += "<td value='" + dsu[index] + "'>" + dsu[index] + "</td>";
+            index +=1;
+            row += "<td value='" + dsu[index] + "'>" + dsu[index] + "</td>";
+            index +=1;
+            table.innerHTML += row;
+        }
+    });
+   //sorting table on click
+    function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("table");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc"; 
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;      
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>

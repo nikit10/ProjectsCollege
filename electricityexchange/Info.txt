@@ -1,0 +1,11 @@
+This application is developed and tested using following:
+- XAMPP Apache server
+- Windows 10 Operating System
+- Google Chrome Version 75.0.3770.100 (Official Build) (64-bit)
+
+
+The only library that I used was Google's CDN library for JQuery. So, I can showcase my knowledge.
+html, javascript, css, ajax and Jquery were used for development.
+
+The assumptions that made were:-
+- A DSU can only be assigned to single site.
